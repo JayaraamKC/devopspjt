@@ -1,4 +1,27 @@
 # Starter pipeline
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: '$xmlFile = "C:\Users\jayaraam\petstore_rev2_2019_05_13\apiproxy\proxies\default.xml"
+      $xmlConfig = [System.Xml.XmlDocument](Get-Content $xmlFile)
+      
+      echo $xmlconfig
+      echo $xmlconfig.proxyendpoint
+      echo $xmlconfig.proxyendpoint.flows
+      echo $xmlconfig.proxyendpoint.flows.flow
+      
+      $newproxyendpoint = $xmlConfig.ProxyEndpoint.Flows.flow.AppendChild($xmlConfig.CreateElement("JayFlow"))
+      
+      $name = Read-Host -Prompt "Enter the name of the pet"
+      $desc = Read-Host -Prompt "Enter the description"
+      
+      $nameattribute = $newProxyendpoint.AppendChild($xmlConfig.CreateElement("name"))
+      $newnameValue = $nameAttribute.AppendChild($xmlConfig.CreateTextNode($name))
+      
+      $descattribute = $newProxyendpoint.AppendChild($xmlConfig.CreateElement("desc"))
+      $newdescValue = $descAttribute.AppendChild($xmlConfig.CreateTextNode($desc))
+      
+      $xmlConfig.Save($xmlFile)'
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
